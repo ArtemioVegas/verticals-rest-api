@@ -1,0 +1,26 @@
+App\DTO\ArticleDTO:
+    properties:
+        title:
+            - Length:
+                min: 5
+
+App\DTO\AdvertDTO:
+    properties:
+        title:
+            - Length:
+                  min: 3
+                  max: 200
+        description:
+            - Length:
+                  min: 5
+                  max : 1000
+        price:
+            - Positive: ~
+        photoUrls:
+            - Type: array
+            - Count:
+                  min: 1
+                  max: 3
+            - Unique: ~
+            - All:
+                - Url: ~
