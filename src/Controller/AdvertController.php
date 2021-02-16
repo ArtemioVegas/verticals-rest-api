@@ -6,6 +6,8 @@ namespace App\Controller;
 
 use App\DTO\AdvertDTO;
 use App\Service\AdvertService;
+use Doctrine\ORM\EntityNotFoundException;
+use Exception;
 use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -18,12 +20,12 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class AdvertController extends AbstractFOSRestController
 {
-    const EXTRA_FIELDS_PARAM_NAME      = 'fields';
-    const EXTRA_FIELD_NAME_DESCRIPTION = 'description';
-    const EXTRA_FIELD_NAME_PHOTO_URLS  = 'photoUrls';
+    public const EXTRA_FIELDS_PARAM_NAME      = 'fields';
+	public const EXTRA_FIELD_NAME_DESCRIPTION = 'description';
+	public const EXTRA_FIELD_NAME_PHOTO_URLS  = 'photoUrls';
 
-    /** @var AdvertService */
-    private $advertService;
+    /** Сервис для работы с объявлениями */
+    private AdvertService $advertService;
 
     /**
      * @param AdvertService $advertService
@@ -34,33 +36,34 @@ class AdvertController extends AbstractFOSRestController
     }
 
     /**
-     * Creates an Advert resource
+     * Экшн создания объявления.
+     *
      * @Rest\Post("/advert")
      * @ParamConverter("advertDTO", converter="fos_rest.request_body")
      * @param AdvertDTO $advertDTO
      * @param ConstraintViolationListInterface $validationErrors
      * @return View
-     * @throws \Exception
+     * @throws Exception
      */
     public function postAdvert(AdvertDTO $advertDTO, ConstraintViolationListInterface $validationErrors): View
     {
-        if (\count($validationErrors) > 0) {
+        if (count($validationErrors) > 0) {
             return View::create($validationErrors, Response::HTTP_BAD_REQUEST);
         }
         $advert = $this->advertService->addAdvert($advertDTO);
 
-        // In case our POST was a success we need to return a 201 HTTP CREATED response with the created object
         return View::create($advert->getId(), Response::HTTP_CREATED);
     }
 
     /**
-     * Retrieves an Advert resource
+     * Получить объявление по идентификатору
+     *
      * @Rest\Get("/advert/{advertId}")
      * @Rest\QueryParam(map=true, name="fields", requirements="[a-z]+", default={}, description="List of extra fields.")
      * @param string $advertId
      * @param ParamFetcher $paramFetcher
      * @return View
-     * @throws \Doctrine\ORM\EntityNotFoundException
+     * @throws EntityNotFoundException
      */
     public function getAdvert(string $advertId, ParamFetcher $paramFetcher): View
     {
@@ -74,7 +77,8 @@ class AdvertController extends AbstractFOSRestController
     }
 
     /**
-     * Retrieves a collection of Advert resource
+     * Экшн получения списка объявлений.
+     *
      * @Rest\Get("/advert")
      * @param Request $request
      * @return View

@@ -6,21 +6,14 @@ namespace App\DTO;
 
 final class AdvertDTO
 {
-    /** @var string $title */
-    private $title;
-    /** @var string $description */
-    private $description;
-    /** @var int $price */
-    private $price;
-    /** var string[] $photoUrls */
-    private $photoUrls;
+    private string $title;
 
-    /**
-     * @param string $title
-     * @param string $description
-     * @param int $price
-     * @param string[] $photoUrls
-     */
+    private string $description;
+
+    private int $price;
+
+    private array $photoUrls;
+
     public function __construct(string $title, string $description, int $price, array $photoUrls)
     {
         $this->title       = $title;
@@ -29,33 +22,21 @@ final class AdvertDTO
         $this->photoUrls   = $photoUrls;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @return string
-     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * @return int
-     */
     public function getPrice(): int
     {
         return $this->price;
     }
 
-    /**
-     * @return string[]
-     */
     public function getPhotoUrls(): array
     {
         return $this->photoUrls;

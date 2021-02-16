@@ -13,16 +13,10 @@ use Knp\Component\Pager\PaginatorInterface;
 
 final class AdvertService
 {
-    /** @var AdvertRepository */
-    private $advertRepository;
+    private AdvertRepository $advertRepository;
 
-    /** @var PaginatorInterface */
-    private $paginator;
+    private PaginatorInterface $paginator;
 
-    /**
-     * @param AdvertRepository $advertRepository
-     * @param PaginatorInterface $paginator
-     */
     public function __construct(AdvertRepository $advertRepository, PaginatorInterface $paginator)
     {
         $this->advertRepository = $advertRepository;
@@ -30,6 +24,8 @@ final class AdvertService
     }
 
     /**
+     * Создать объявление
+     *
      * @param AdvertDTO $advertDTO
      * @return Advert
      * @throws Exception
@@ -43,6 +39,8 @@ final class AdvertService
     }
 
     /**
+     * Получить объявление по идентификатору
+     *
      * @param string $advertId
      * @return Advert
      * @throws EntityNotFoundException
@@ -59,6 +57,8 @@ final class AdvertService
     }
 
     /**
+     * Получить список объявлений
+     *
      * @param int $page
      * @param int $limit
      * @return Advert[]|array

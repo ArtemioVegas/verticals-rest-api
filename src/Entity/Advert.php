@@ -17,47 +17,42 @@ use Ramsey\Uuid\UuidInterface;
 class Advert
 {
     /**
-     * @var UuidInterface
      * @ORM\Id
      * @ORM\Column(type="uuid")
      */
-    private $id;
+    private UuidInterface $id;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=200)
      */
-    private $title;
+    private string $title;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=1000)
      */
-    private $description;
+    private string $description;
 
     /**
-     * @var int
      * @ORM\Column(type="integer")
      */
-    private $price;
+    private int $price;
 
     /**
-     * @var DateTime
      * @ORM\Column(type="datetime", options={"default" : "CURRENT_TIMESTAMP"})
      */
-    private $created;
+    private DateTime $created;
 
     /**
      * One advert has many photos. This is the inverse side.
      * @var ArrayCollection|AdvertPhoto[]
      * @ORM\OneToMany(targetEntity="AdvertPhoto", mappedBy="advert", cascade={"all"})
      */
-    private $photos;
+    private ArrayCollection $photos;
 
     /**
-     * @param string $title
-     * @param string $description
-     * @param int $price
+     * @param string   $title
+     * @param string   $description
+     * @param int      $price
      * @param string[] $urls
      * @throws Exception
      */
@@ -83,9 +78,6 @@ class Advert
         return $this->photos;
     }
 
-	/**
-	 * @param string $url
-	 */
     public function addPhoto(string $url): void
     {
         foreach ($this->photos as $photo) {
@@ -96,41 +88,26 @@ class Advert
         $this->photos->add(new AdvertPhoto($this, $url));
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return (string)$this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @return string
-     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * @return int Возвращает цену.
-     */
     public function getPrice(): int
     {
         return $this->price;
     }
 
-    /**
-     * @return AdvertPhoto
-     */
     public function getMainPhoto(): AdvertPhoto
     {
         return $this->photos->first();
